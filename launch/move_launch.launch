@@ -1,3 +1,5 @@
 <launch>
-    <node type=""/>
+    <node pkg="verbal_communication" type="Encoder.py" name="Encoder"/>
+    <node pkg="verbal_communication" type="MoveTask.py" name="MoveTask"/>
+    <node pkg="verbal_communication" type="AudioDecoderMain.py" name="AudioDecoderMain"/>
 </launch>
