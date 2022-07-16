@@ -1,5 +1,6 @@
 <launch>
-    <node pkg="verbal_communication" type="Encoder.py" name="Encoder"/>
-    <node pkg="verbal_communication" type="MoveTask.py" name="MoveTask"/>
-    <node pkg="verbal_communication" type="AudioDecoderMain.py" name="AudioDecoderMain"/>
+    <node pkg="verbal_communication" type="SpeechObserver.py" name="SpeechObserver" output="screen" />
+    <node pkg="verbal_communication" type="Encoder.py" name="Encoder" output="screen" />
+    <node pkg="verbal_communication" type="MoveTask.py" name="MoveTask" output="screen" />
+    <node pkg="verbal_communication" type="Speaker.py" name="Speaker" output="screen" />
 </launch>

@@ -54,10 +54,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  AudioDecoder.srv
-)
+#add_service_files(
+#  FILES
+#  AudioDecoder.srv
+#)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -67,10 +67,10 @@ add_service_files(
 # )
 
 # Generate added messages and services with any dependencies listed here
- generate_messages(
-  DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
-)
+# generate_messages(
+#  DEPENDENCIES
+#  std_msgs  # Or other packages containing msgs
+#)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -159,9 +159,9 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/AudioDecoderMain.py
+  scripts/AudioInterface/SpeechObserver.py
+  scripts/AudioInterface/Speaker.py
   scripts/TaskTemplates/MoveTask.py
-  scripts/TaskTemplates/TaskTemplate.py
   scripts/Encoder/Encoder.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

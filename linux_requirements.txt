@@ -1,0 +1,5 @@
+ sudo apt update && sudo apt install espeak ffmpeg libespeak1
+ sudo apt install coreutils
+ sudo apt-get install libportaudio2
+ sudo apt install portaudio19-dev python3-pyaudio
+ 

@@ -1,3 +1,0 @@
-std_msgs/String file_path #file path of audio file to process
----
-std_msgs/String text # speech in audio file converted to text
