@@ -162,6 +162,7 @@ catkin_install_python(PROGRAMS
   scripts/AudioInterface/SpeechObserver.py
   scripts/AudioInterface/Speaker.py
   scripts/TaskTemplates/MoveTask.py
+  scripts/TaskTemplates/GreetingTask.py
   scripts/Encoder/Encoder.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

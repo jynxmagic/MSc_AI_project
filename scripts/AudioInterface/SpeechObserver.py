@@ -21,7 +21,7 @@ message.data = file_name
 devices = PvRecorder.get_audio_devices()
 porcupine = pvporcupine.create(
     access_key='OX9bSVHcnyOpSrYKfmrJOh43DAg7d7kQ6BP0PWatLJMXgdOQrmoNOA==',
-    keywords=[robot_name]
+    keywords=[robot_name, "jarvis"]
     )
 
 
