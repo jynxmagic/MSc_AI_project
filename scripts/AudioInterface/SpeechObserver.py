@@ -12,6 +12,8 @@ TIME_TO_RECORD_FOR = 3
 file_name = pathlib.Path(__file__).parent.resolve().__str__()+"/recieved/message.wav"
 
 rospy.init_node("audio_recorder")
+robot_name = rospy.get_param("SpeechObserver/robot_name")
+print("this robot is called ", robot_name)
 publisher = rospy.Publisher("audio_found", String, queue_size=1)
 message = String()
 message.data = file_name
@@ -19,7 +21,7 @@ message.data = file_name
 devices = PvRecorder.get_audio_devices()
 porcupine = pvporcupine.create(
     access_key='OX9bSVHcnyOpSrYKfmrJOh43DAg7d7kQ6BP0PWatLJMXgdOQrmoNOA==',
-    keywords=["terminator"]
+    keywords=[robot_name]
     )
 
 

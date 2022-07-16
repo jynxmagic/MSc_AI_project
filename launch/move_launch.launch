@@ -1,5 +1,7 @@
 <launch>
-    <node pkg="verbal_communication" type="SpeechObserver.py" name="SpeechObserver" output="screen" />
+    <node pkg="verbal_communication" type="SpeechObserver.py" name="SpeechObserver" output="screen">
+        <param name="robot_name" value="snowboy" />
+    </node>
     <node pkg="verbal_communication" type="Encoder.py" name="Encoder" output="screen" />
     <node pkg="verbal_communication" type="MoveTask.py" name="MoveTask" output="screen" />
     <node pkg="verbal_communication" type="Speaker.py" name="Speaker" output="screen" />
