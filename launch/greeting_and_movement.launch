@@ -1,0 +1,8 @@
+<launch>
+    <param name="robot_name" value="bumblebee" />
+    <node pkg="verbal_communication" type="SpeechObserver.py" name="SpeechObserver" output="screen" />
+    <node pkg="verbal_communication" type="Encoder.py" name="Encoder" output="screen" />
+    <node pkg="verbal_communication" type="Speaker.py" name="Speaker" output="screen" />
+    <node pkg="verbal_communication" type="GreetingTask.py" name="Greeting" output="screen"/>
+    <node pkg="verbal_communication" type="MoveTask.py" name="Move" output="screen" />
+</launch>

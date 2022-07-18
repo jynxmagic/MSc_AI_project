@@ -7,7 +7,7 @@ import re
 
 task_name="greeting"
 topic_name="decoded_message"
-robot_name = rospy.get_param("Greeting/robot_name")
+robot_name = rospy.get_param("robot_name")
 
 known_robots = [robot_name.upper()]
 

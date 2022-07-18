@@ -12,7 +12,7 @@ TIME_TO_RECORD_FOR = 3
 file_name = pathlib.Path(__file__).parent.resolve().__str__()+"/recieved/message.wav"
 
 rospy.init_node("audio_recorder")
-robot_name = rospy.get_param("SpeechObserver/robot_name")
+robot_name = rospy.get_param("robot_name")
 print("this robot is called ", robot_name)
 publisher = rospy.Publisher("audio_found", String, queue_size=1)
 message = String()
