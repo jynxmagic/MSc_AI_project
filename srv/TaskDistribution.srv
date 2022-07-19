@@ -1,0 +1,3 @@
+std_msgs/String update # char to remove from task, followed by robot to do the task (split by comma)
+----
+std_msgs/String remaining # remaining tasks, as string
