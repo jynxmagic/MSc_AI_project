@@ -24,9 +24,10 @@ try:
 except Exception as e:
     print("failed to load service. ", e)
 
+print("tasks remaining", len(tasks))
 while len(tasks):
     time.sleep(random.randint(10, 20))
-
+    print("tasks remaining", len(tasks))
     remaining_tasks = len(tasks)-1
 
     task_to_assign = tasks[random.randint(0, remaining_tasks)]

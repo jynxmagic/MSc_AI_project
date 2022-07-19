@@ -20,16 +20,16 @@ tts_engine = gTTS
 def audio_decoder_callback(req):
     print(req)
     while not exists(req.data):
-        sleep(1)
+        sleep(1) # raspberry pi has quite slow disk i/o so we need to wait for the file to appear
     
     decoded_message = String(leopard.process_file(req.data))
     decode_publisher.publish(decoded_message)
 
 def audio_encoder_callback(req):
-    while not exists(req.data):
-        sleep(1)
     tts = gTTS(req.data)
     tts.save(dispatch_file)
+    while not exists(dispatch_file):
+        sleep(1)
     encode_publisher.publish(dispatch_file)
     
 
