@@ -22,11 +22,11 @@ except Exception as e:
     print("failed to load service. ", e)
 tasks_res = task_service(String("null,null"))
 print("tasks res", tasks_res)
-tasks = [char for char in tasks_res.remaining.data]
+tasks = tasks_res.remaining.data.split(",")
 
 print("tasks remaining", len(tasks))
 while len(tasks):
-    time.sleep(random.randint(10, 20))
+    time.sleep(random.randint(30, 120))
     print("tasks remaining", len(tasks))
     remaining_tasks = len(tasks)-1
 
@@ -37,4 +37,4 @@ while len(tasks):
     publisher.publish(String(message))
 
     tasks_res = task_service(String(task_to_assign+","+robot_name))
-    tasks = [char for char in tasks_res.remaining.data]
+    tasks = tasks_res.remaining.data.split(",")

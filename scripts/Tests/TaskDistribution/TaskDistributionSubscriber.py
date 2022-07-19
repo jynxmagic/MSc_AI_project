@@ -9,7 +9,8 @@ rospy.wait_for_service("task_dist_service")
 
 def update_task(msg):
     robot = "terminator"
-    task = msg.data[-1]
+    task = msg.data.split(" ")[-1
+    ]
 
     try:
         task_srv = rospy.ServiceProxy("task_dist_service", TaskDistribution)
@@ -19,6 +20,6 @@ def update_task(msg):
     except Exception as e:
         print(e)
 
-rospy.Subscriber("encoded_message", String, update_task)
+rospy.Subscriber("decoded_message", String, update_task)
 
 rospy.spin()

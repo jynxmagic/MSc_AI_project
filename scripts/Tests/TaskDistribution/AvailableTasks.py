@@ -6,9 +6,7 @@ from std_msgs.msg import String
 
 rospy.init_node("task_distribution_service")
 
-
-word = "chris"
-available_tasks = [char for char in word]
+available_tasks = ["RED", "GREEN", "BLUE", "YELLOW", "PURPLE", "ORANGE"]
 
 assignments = {
     "bumblebee" : [],
@@ -22,8 +20,10 @@ def assignement_update(req):
         available_tasks.remove(task)
         assignments[robot].append(task)
     print("tasks in service", available_tasks)
-    tasks_string = "".join(available_tasks)
+    tasks_string = ",".join(available_tasks)
     print(assignments)
+    if len(available_tasks) == 0:
+        print(assignments)
     return String(tasks_string)
 
 rospy.Service("task_dist_service", TaskDistribution, assignement_update)
