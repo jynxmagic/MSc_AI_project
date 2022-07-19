@@ -18,11 +18,11 @@ task_service = ""
 
 try:
     task_service = rospy.ServiceProxy("task_dist_service", TaskDistribution)
-    tasks_res = task_service(String("null,null"))
-    print("tasks res", tasks_res)
-    tasks = [char for char in tasks_res.remaining.data]
 except Exception as e:
     print("failed to load service. ", e)
+tasks_res = task_service(String("null,null"))
+print("tasks res", tasks_res)
+tasks = [char for char in tasks_res.remaining.data]
 
 print("tasks remaining", len(tasks))
 while len(tasks):
@@ -36,9 +36,5 @@ while len(tasks):
 
     publisher.publish(String(message))
 
-try:
-    task_service = rospy.ServiceProxy("task_dist_service", TaskDistribution)
     tasks_res = task_service(String(task_to_assign+","+robot_name))
     tasks = [char for char in tasks_res.remaining.data]
-except Exception as e:
-    print("failed to load service. ", e)
