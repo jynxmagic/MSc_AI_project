@@ -1,11 +1,7 @@
 # INSTALLATION
+1. Run the command in requirements.txt file
+2. run "mics.py" to display current USB ports and replace the value "device_index" in scripts/AudioInterface/SpeechObserver.py with the USB index of your microphone.
 
- sudo apt update && sudo apt install espeak ffmpeg libespeak1
- sudo apt install coreutils
- sudo apt-get install libportaudio2
- sudo apt install portaudio19-dev python3-pyaudio
- 
- install all pip dependencies from requirements.txt file
 
  # TESTS
 
