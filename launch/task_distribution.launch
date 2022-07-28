@@ -3,7 +3,7 @@
     <node pkg="verbal_communication" type="SpeechObserver.py" name="SpeechObserver" output="screen" />
     <node pkg="verbal_communication" type="Encoder.py" name="Encoder" output="screen" />
     <node pkg="verbal_communication" type="Speaker.py" name="Speaker" output="screen" />
-    <node pkg="verbal_communication" type="AvailableTasks.py" name="TasksService" output="screen"/>
-    <node pkg="verbal_communication" type="TaskDistributionPublisher.py" name="TasksPub" output="screen" />
-    <node pkg="verbal_communication" type="TaskDistributionSubscriber.py" name="TasksSub" output="screen" />
+    <node pkg="verbal_communication" type="TaskRepository.py" name="TasksService" output="screen"/>
+    <node pkg="verbal_communication" type="DistributionTaskPublisher.py" name="TasksPub" output="screen" />
+    <node pkg="verbal_communication" type="DistributionTaskSubscriber.py" name="TasksSub" output="screen" />
 </launch>

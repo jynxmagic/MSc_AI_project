@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   move_base_msgs
   actionlib
+  message_runtime
   )
 
 ## System dependencies are found with CMake's conventions
@@ -50,11 +51,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  StringArray.msg
+)
 
 ## Generate services in the 'srv' folder
 add_service_files(
@@ -73,7 +73,8 @@ add_service_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
-  move_base_msgs  # Or other packages containing msgs
+  move_base_msgs 
+  verbal_communication # Or other packages containing msgs
 )
 
 ################################################
@@ -108,7 +109,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES verbal_communication
-  CATKIN_DEPENDS std_msgs geometry_msgs rospy message_runtime move_base_msgs actionlib
+  CATKIN_DEPENDS std_msgs geometry_msgs rospy message_runtime move_base_msgs actionlib message_generation
 #  DEPENDS system_lib
 )
 
@@ -118,9 +119,9 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
-${catkin_INCLUDE_DIRS}
-)
+#include_directories(
+#${catkin_INCLUDE_DIRS}
+#)
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -135,7 +136,7 @@ ${catkin_INCLUDE_DIRS}
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(task_execution src/task_execution.cpp)
+#add_executable(task_execution src/task_execution.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -148,9 +149,9 @@ add_executable(task_execution src/task_execution.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(task_execution
-  ${catkin_LIBRARIES}
-)
+#target_link_libraries(task_execution
+#  ${catkin_LIBRARIES}
+#)
 
 #############
 ## Install ##
@@ -167,6 +168,9 @@ catkin_install_python(PROGRAMS
   scripts/TaskTemplates/MoveTask.py
   scripts/TaskTemplates/GreetingTask.py
   scripts/Encoder/Encoder.py
+  scripts/TaskBroker/TaskRepository.py
+  scripts/TaskTemplates/DistributionTask/DistributionTaskPublisher.py
+  scripts/TaskTemplates/DistributionTask/DistributionTaskSubscriber.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
