@@ -6,4 +6,13 @@
     <node pkg="verbal_communication" type="TaskRepository.py" name="TasksService" output="screen"/>
     <node pkg="verbal_communication" type="DistributionTaskPublisher.py" name="TasksPub" output="screen" />
     <node pkg="verbal_communication" type="DistributionTaskSubscriber.py" name="TasksSub" output="screen" />
+    
+
+    <arg name="map_file" default="$(find verbal_communication)/maps/map.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+        <param name="frame_id", value="map"/>
+    </node>
+
+    <node pkg="verbal_communication" type="TaskExecution.py" name="TaskExecuter" output="screen" />
+
 </launch>

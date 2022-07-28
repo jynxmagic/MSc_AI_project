@@ -169,8 +169,9 @@ catkin_install_python(PROGRAMS
   scripts/TaskTemplates/GreetingTask.py
   scripts/Encoder/Encoder.py
   scripts/TaskBroker/TaskRepository.py
-  scripts/TaskTemplates/DistributionTask/DistributionTaskPublisher.py
-  scripts/TaskTemplates/DistributionTask/DistributionTaskSubscriber.py
+  scripts/TaskTemplates/TaskDistribution/DistributionTaskPublisher.py
+  scripts/TaskTemplates/TaskDistribution/DistributionTaskSubscriber.py
+  scripts/TaskTemplates/TaskDistribution/TaskExecution.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

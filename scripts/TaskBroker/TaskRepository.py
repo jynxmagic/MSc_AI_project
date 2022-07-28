@@ -2,12 +2,11 @@
 
 import rospy
 from verbal_communication.srv import TaskDistribution
-from std_msgs.msg import String
 from verbal_communication.msg import StringArray
 
 rospy.init_node("conversation_broker_node")
 
-available_tasks = ["RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"]
+available_tasks = ["ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"]
 
 assignments = {
     "bumblebee" : [],
@@ -27,8 +26,8 @@ def assignement_update(req):
 
     print("tasks in service", available_tasks)
 
-    if not available_tasks:
-        print(assignments)
+    for k in [*assignments.keys()]:
+        rospy.set_param(k+"_assignments", assignments[k])
 
 
     return StringArray(available_tasks)
