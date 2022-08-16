@@ -8,10 +8,11 @@ from gtts import gTTS
 import pathlib
 from os.path import exists
 
+
 rospy.init_node("audio_encoder")
 leopard = pvleopard.create(access_key='OX9bSVHcnyOpSrYKfmrJOh43DAg7d7kQ6BP0PWatLJMXgdOQrmoNOA==')
-decode_publisher = rospy.Publisher("decoded_message", String, queue_size=1)
-encode_publisher = rospy.Publisher("encoded_message", String, queue_size=1)
+decode_publisher = rospy.Publisher("decoded_message", String, queue_size=5)
+encode_publisher = rospy.Publisher("encoded_message", String, queue_size=5)
 dispatch_file = pathlib.Path(__file__).parent.resolve().__str__()+"/dispatch/message.mp3"
 
 
@@ -22,7 +23,8 @@ def audio_decoder_callback(req):
     while not exists(req.data):
         sleep(1) # raspberry pi has quite slow disk i/o so we need to wait for the file to appear
     
-    decoded_message = String(leopard.process_file(req.data))
+    decoded_message = String(leopard.process_file(req.data)[0])
+
     decode_publisher.publish(decoded_message)
 
 def audio_encoder_callback(req):
@@ -31,6 +33,7 @@ def audio_encoder_callback(req):
     while not exists(dispatch_file):
         sleep(1)
     encode_publisher.publish(dispatch_file)
+    sleep(3)
     
 
 rospy.Subscriber("audio_found", String, audio_decoder_callback)

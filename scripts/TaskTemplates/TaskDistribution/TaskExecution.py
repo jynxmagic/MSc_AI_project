@@ -1,37 +1,42 @@
 #! /usr/bin/env python
 
+from email import message
 from typing import List
 import rospy
-from move_base_msgs.msg import MoveBaseAction, MoveBaseActionGoal
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 import actionlib
 from verbal_communication.msg import StringArray
+from geometry_msgs.msg import Pose, Point, Quaternion
+from std_msgs.msg import String
 
 rospy.init_node("task_execution_node")
 
 client = actionlib.SimpleActionClient("move_base", MoveBaseAction)
+
+
+message_publisher = rospy.Publisher("dispatch_message", String, queue_size=1)
+#while not client.wait_for_server(rospy.Duration(5)): # wait for the server to come online
+#    print("waiting for move base server")
+
 client.wait_for_server()
-goal = MoveBaseActionGoal()
-#setting some default values for the goal - we only change x/y values
+goal = MoveBaseGoal()
 goal.target_pose.header.frame_id = "map"
-goal.target_pose.pose.position.z = 0.0
-goal.target_pose.pose.orientation.x = 0.0
-goal.target_pose.pose.orientation.y = 0.0
-goal.target_pose.pose.orientation.z = 0.0
-goal.target_pose.pose.orientation.w = 0.0
+
 
 def getTaskList() -> List:
     return {
-        "YELLOW" : [1.0, 1.0],
-        "GREEN" :  [2.0, 2.0],
-        "ORANGE" : [3.0, 3.0],
-        "BLUE" : [4.0, 4.0],
-        "INDIGO" : [5.0, 5.0],
-        "VIOLET" : [6.0, 6.0],
-    }
+        "YELLOW" : [-0.44509080052375793, 1.486067771911621, -0.001434326171875], #these location were taken using rviz "publish point" feature and "rostopic echo clicked_point"
+        "GREEN" :  [4.170343399047852, 0.9470973610877991, -0.001434326171875],
+        "ORANGE" : [6.318845748901367, -1.5968809127807617, -0.005340576171875]
+        #"BLUE" : [-0.6246927380561829, 4.903703212738037, -0.0052490234375],
+        #"INDIGO" : [4.249742031097412, 4.784639835357666, -0.001434326171875],
+        #"VIOLET" : [3.854705572128296, 1.510190725326538, -0.009246826171875],
+    } #x, y, z
 
-def moveBaseAction(location) -> bool:
-    goal.target_pose.pose.position.x = location[0]
-    goal.target_pose.pose.position.y = location[1]
+def sendToMoveBase(location) -> bool:
+
+    goal.target_pose.pose = Pose(Point(location[0], location[1], location[2]), Quaternion(0, 0, 0, 1)) # the goal is actually just a Pose on a map
+
 
     client.send_goal(goal)
 
@@ -42,21 +47,25 @@ def moveBaseAction(location) -> bool:
     return False
 
 def executeTask(msg):
+    print("executing tasks, ",msg.data)
+
     tasks = getTaskList()
 
     if type(msg.data) is type([]):
         for task in msg.data:
             if task in tasks:
                 location = tasks[task]
-                success = MoveBaseAction(location)
+                success = sendToMoveBase(location)
                 if(success):
-                    print("completed task", task)
+                    message_publisher.publish(String("completed task "+task))
                 else:
-                    print("failed to complete task", task)
+                    message_publisher.publish(String("failed to complete task "+task))
             else:
                 print("could not find task", task)
 
 
 rospy.Subscriber("execute_tasks", StringArray, executeTask)
+
+print("move_base server is launched and task execution is ready")
 
 rospy.spin()

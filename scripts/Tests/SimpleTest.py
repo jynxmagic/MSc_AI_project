@@ -9,13 +9,9 @@ rospy.init_node("simple_test")
 
 robot_name = rospy.get_param("robot_name")
 
-known_robots = ["jarvis", "bumblebee", "terminator", "fake name"]
-known_robots.remove(robot_name)
-
 publisher = rospy.Publisher("dispatch_message", String, queue_size=1)
 
 available_commands = [
-    "HELLO ALL",
     "MOVE FORWARD",
     "ROTATE LEFT",
     "ROTATE RIGHT",
@@ -23,12 +19,12 @@ available_commands = [
 ]
 
 for i in range(0, 20):
-    time.sleep(random.randint(10, 20))
+    time.sleep(10)
 
-    to = known_robots[random.randint(0,2)]
+    to = "bumblebee"
 
-    command = available_commands[random.randint(0,4)]
+    command = available_commands[random.randint(0,3)]
 
-    full_command = to + ", " + command
+    full_command = to + "... " + command
 
     publisher.publish(String(full_command))

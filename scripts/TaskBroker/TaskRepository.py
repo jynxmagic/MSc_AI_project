@@ -6,7 +6,7 @@ from verbal_communication.msg import StringArray
 
 rospy.init_node("conversation_broker_node")
 
-available_tasks = ["ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"]
+available_tasks = ["ORANGE", "YELLOW", "GREEN", "INDIGO", "VIOLET"]
 
 assignments = {
     "bumblebee" : [],

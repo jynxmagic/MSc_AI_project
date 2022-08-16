@@ -1,5 +1,12 @@
 <launch>
     <param name="robot_name" value="bumblebee" />
+
+    <arg name="target_x_vel" default="0.5"/>
+    <arg name="target_yaw_vel" default="0.4"/>
+    <arg name="robot_radius" default="0.3"/>
+    <arg name="tool_radius" default="0.3"/>
+    <arg name="map_file" default="$(find verbal_communication)/maps/map.yaml" />
+
     <node pkg="verbal_communication" type="SpeechObserver.py" name="SpeechObserver" output="screen" />
     <node pkg="verbal_communication" type="Encoder.py" name="Encoder" output="screen" />
     <node pkg="verbal_communication" type="Speaker.py" name="Speaker" output="screen" />
@@ -8,11 +15,100 @@
     <node pkg="verbal_communication" type="DistributionTaskSubscriber.py" name="TasksSub" output="screen" />
     
 
-    <arg name="map_file" default="$(find verbal_communication)/maps/map.yaml" />
+
+    <!-- load map -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
-        <param name="frame_id", value="map"/>
+        <param name="frame_id" value="map"/>
     </node>
 
+    <!-- start mobile robot simulator -->
+    <node pkg="mobile_robot_simulator" type="mobile_robot_simulator_node" name="mobile_robot_simulator" output="screen">
+        <param name="publish_map_transform" value="true"/>
+        <param name="publish_rate" value="10.0"/>
+        <param name="velocity_topic" value="/cmd_vel"/>
+        <param name="odometry_topic" value="/odom"/>
+    </node>
+
+    <!-- launch the scan topic for mobile robot -->
+    <node pkg="mobile_robot_simulator" type="laser_scanner_simulator_node" name="laser_sim_node">
+      <param name="laser_topic" value="/scan"/>
+      <param name="map_service" value="/static_map"/>
+      <!-- laser parameters -->
+      <param name="laser_frame_id" value="base_link"/>
+      <param name="laser_fov" value="4.71"/>
+      <param name="laser_beam_count" value="541"/>
+      <param name="laser_max_range" value="30.0"/>
+      <param name="laser_min_range" value="0.05"/>
+      <param name="laser_frequency" value="10.0"/>
+      <!-- noise model parameters -->
+      <param name="apply_noise" value="true"/>
+      <param name="sigma_hit" value="0.005"/>
+      <param name="lambda_short" value="2.0"/>
+      <!-- noise model mixing coefficients -->
+      <param name="z_hit" value="0.995"/>
+      <param name="z_short" value="0.0"/>
+      <param name="z_max" value="0.005"/>
+      <param name="z_rand" value="0.0"/>
+    </node>
+
+
+    <!-- run localization on the simulated robot and map -->
+   <!--<node pkg="amcl" type="amcl" name="amcl">
+        <param name="min_particles"             value="500"/>
+        <param name="max_particles"             value="3000"/>
+        <param name="kld_err"                   value="0.02"/>
+        <param name="update_min_d"              value="0.20"/>
+        <param name="update_min_a"              value="0.20"/>
+        <param name="resample_interval"         value="1"/>
+        <param name="transform_tolerance"       value="0.5"/>
+        <param name="recovery_alpha_slow"       value="0.00"/>
+        <param name="recovery_alpha_fast"       value="0.00"/>
+        <param name="initial_pose_x"            value="-5"/>
+        <param name="initial_pose_y"            value="-5"/>
+        <param name="initial_pose_a"            value="0.0"/>
+        <param name="gui_publish_rate"          value="50.0"/>
+        <param name="laser_max_range"           value="3.5"/>
+        <param name="laser_max_beams"           value="180"/>
+        <param name="laser_z_hit"               value="0.5"/>
+        <param name="laser_z_short"             value="0.05"/>
+        <param name="laser_z_max"               value="0.05"/>
+        <param name="laser_z_rand"              value="0.5"/>
+        <param name="laser_sigma_hit"           value="0.2"/>
+        <param name="laser_lambda_short"        value="0.1"/>
+        <param name="laser_likelihood_max_dist" value="2.0"/>
+        <param name="laser_model_type"          value="likelihood_field"/>
+        <param name="odom_model_type"           value="diff"/>
+        <param name="odom_alpha1"               value="0.1"/>
+        <param name="odom_alpha2"               value="0.1"/>
+        <param name="odom_alpha3"               value="0.1"/>
+        <param name="odom_alpha4"               value="0.1"/>
+        <param name="odom_frame_id"             value="/odom"/>
+        <remap from="scan"                      to="/scan" />
+        <remap from="map"                       to="/map" />
+        <remap from="static_map"                to="/static_map" />
+        <param name="base_frame_id"             value="base_footprint"/>
+    </node> -->
+
+    <!-- move base server-->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+
+
+        <rosparam file="$(find verbal_communication)/move_base_config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+        <rosparam file="$(find verbal_communication)/move_base_config/costmap_common_params.yaml" command="load" ns="local_costmap" /> 
+        <rosparam file="$(find verbal_communication)/move_base_config/base_local_planner.yaml" command="load"/>
+        <rosparam file="$(find verbal_communication)/move_base_config/global_costmap.yaml" command="load"/>
+        <rosparam file="$(find verbal_communication)/move_base_config/local_costmap.yaml" command="load"/>
+
+        <remap from="scan" to="/scan" />
+        <remap from="odom" to="/odom" />
+        <remap from="map" to="/map" />
+    </node>
+
+    <!-- task execution node-->
     <node pkg="verbal_communication" type="TaskExecution.py" name="TaskExecuter" output="screen" />
+
+    <!-- rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find verbal_communication)/move_base_config/rviz_conf.rviz"/>
 
 </launch>

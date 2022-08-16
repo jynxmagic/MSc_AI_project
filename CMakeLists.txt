@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs 
   message_generation
   geometry_msgs
+  move_base
   move_base_msgs
   actionlib
   message_runtime
@@ -109,7 +110,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES verbal_communication
-  CATKIN_DEPENDS std_msgs geometry_msgs rospy message_runtime move_base_msgs actionlib message_generation
+  CATKIN_DEPENDS std_msgs geometry_msgs rospy message_runtime move_base_msgs actionlib message_generation move_base
 #  DEPENDS system_lib
 )
 
