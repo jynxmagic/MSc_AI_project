@@ -6,17 +6,24 @@ footprint_padding: 0.03
 
 plugins:
 - {name: static_layer, type: "costmap_2d::StaticLayer"}
-# - {name: obstacles_layer, type: "costmap_2d::ObstacleLayer"}
+- {name: obstacles_layer, type: "costmap_2d::ObstacleLayer"}
 - {name: inflater_layer, type: "costmap_2d::InflationLayer"}
 
 static_layer:
   map_topic: /map
   subscribe_to_updates: true
 
-# obstacles_layer:
-#   observation_sources: laser_scan_sensor
-#   laser_scan_sensor: {sensor_frame: laser_frame, data_type: LaserScan, topic: scan, marking: true, clearing: true,  obstacle_range: 6.0, raytrace_range: 8.5}
+obstacles_layer:
+  enabled: true
+  topic: scan
+  obstacle_range: 5.0
+  raytrace_range: 8.0
+  observation_sources: sensor_config
+  sensor_config:
+    data_type: LaserScan
+    topic: scan
+    marking: true
 
 inflater_layer:
-  inflation_radius: 0.2
+  inflation_radius: 0.1 #small inflation so the robot can fit through gaps
   cost_scaling_factor: 1.0
