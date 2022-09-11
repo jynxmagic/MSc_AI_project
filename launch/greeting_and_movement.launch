@@ -1,5 +1,5 @@
 <launch>
-    <param name="robot_name" value="bumblebee" />
+    <param name="robot_name" value="terminator" />
     <node pkg="verbal_communication" type="SpeechObserver.py" name="SpeechObserver" output="screen" />
     <node pkg="verbal_communication" type="Encoder.py" name="Encoder" output="screen" />
     <node pkg="verbal_communication" type="Speaker.py" name="Speaker" output="screen" />

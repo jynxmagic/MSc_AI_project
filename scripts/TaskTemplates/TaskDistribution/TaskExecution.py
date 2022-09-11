@@ -27,11 +27,11 @@ goal.target_pose.header.frame_id = "map"
 def getTaskList() -> List:
     return {
         "YELLOW" : [-0.44509080052375793, 1.486067771911621, -0.001434326171875], #these location were taken using rviz "publish point" feature and "rostopic echo clicked_point"
-        "GREEN" :  [4.170343399047852, 0.9470973610877991, -0.001434326171875],
+#        "GREEN" :  [4.170343399047852, 0.9470973610877991, -0.001434326171875],
         "ORANGE" : [6.318845748901367, -1.5968809127807617, -0.005340576171875],
-        "BLUE" : [-0.42593103647232056, 4.4262542724609375, 0.002471923828125],
-        "INDIGO" : [4.249742031097412, 3.6765286922454834, -0.0013427734375],
-        "VIOLET" : [4.498147487640381, -1.7070852518081665, 0.002532958984375],
+#        "BLUE" : [-0.42593103647232056, 4.4262542724609375, 0.002471923828125],
+#        "INDIGO" : [4.249742031097412, 3.6765286922454834, -0.0013427734375],
+#        "VIOLET" : [4.498147487640381, -1.7070852518081665, 0.002532958984375],
     } #x, y, z
 
 def sendToMoveBase(location) -> bool:
@@ -41,7 +41,7 @@ def sendToMoveBase(location) -> bool:
 
     client.send_goal(goal)
 
-    result = client.wait_for_result(rospy.Duration(120)) # wait for a maximum of 120 seconds for the robot to reach location
+    result = client.wait_for_result(rospy.Duration(180)) # wait for a maximum of 180 seconds for the robot to reach location
 
     if result:
         return True

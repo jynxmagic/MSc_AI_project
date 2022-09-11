@@ -1,8 +1,8 @@
 global_frame: map
 robot_base_frame: base_link
 
-footprint: [[0.12, 0.14], [0.12, -0.14], [-0.12, -0.14], [-0.12, 0.14]]
-footprint_padding: 0.03
+footprint: [[-0.1, -0.1], [-0.1, 0.1], [0.1, 0.1], [0.1, -0.1]]
+footprint_padding: 0.045
 
 plugins:
 - {name: static_layer, type: "costmap_2d::StaticLayer"}
@@ -25,5 +25,5 @@ obstacles_layer:
     marking: true
 
 inflater_layer:
-  inflation_radius: 0.1 #small inflation so the robot can fit through gaps
-  cost_scaling_factor: 1.0
+  inflation_radius: 0.3 #inflation radius slighlty larger than the robot itself - robot is 0.2 (20cm) wide
+  cost_scaling_factor: 0.2 # low cost scaling factor stops the robot from trying to make a perfect path - robot can move extremely close to obstactles with high scaling

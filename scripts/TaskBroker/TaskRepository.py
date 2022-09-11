@@ -6,7 +6,13 @@ from verbal_communication.msg import StringArray
 
 rospy.init_node("conversation_broker_node")
 
-available_tasks = ["ORANGE", "YELLOW", "GREEN", "INDIGO", "VIOLET"]
+available_tasks = [
+    "ORANGE", 
+    "YELLOW", 
+#    "GREEN", 
+ #   "INDIGO", 
+  #  "VIOLET"
+]
 
 assignments = {
     "bumblebee" : [],
@@ -17,7 +23,7 @@ def assignement_update(req):
     task = req.task.data
     robot = req.robot.data
 
-    print("testr", task, robot)
+    print(robot, " assigned to ", task)
     if task in available_tasks:
         available_tasks.remove(task)
         assignments[robot].append(task)
