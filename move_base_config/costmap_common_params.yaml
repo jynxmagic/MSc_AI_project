@@ -1,6 +1,8 @@
 global_frame: map
 robot_base_frame: base_link
 
+
+#this is the robot size
 footprint: [[-0.1, -0.1], [-0.1, 0.1], [0.1, 0.1], [0.1, -0.1]]
 footprint_padding: 0.045
 
@@ -9,10 +11,12 @@ plugins:
 - {name: obstacles_layer, type: "costmap_2d::ObstacleLayer"}
 - {name: inflater_layer, type: "costmap_2d::InflationLayer"}
 
+#the map topic
 static_layer:
   map_topic: /map
   subscribe_to_updates: true
 
+#obstacles
 obstacles_layer:
   enabled: true
   topic: scan
@@ -24,6 +28,8 @@ obstacles_layer:
     topic: scan
     marking: true
 
+
+#obstacles are "inflated" to ensure the robot does not bump into them
 inflater_layer:
   inflation_radius: 0.3 #inflation radius slighlty larger than the robot itself - robot is 0.2 (20cm) wide
   cost_scaling_factor: 0.2 # low cost scaling factor stops the robot from trying to make a perfect path - robot can move extremely close to obstactles with high scaling

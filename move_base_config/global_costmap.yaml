@@ -1,3 +1,4 @@
+#defining the size of the global costmap
 global_costmap:
   global_frame: map
   robot_base_frame: base_link

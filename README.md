@@ -8,16 +8,29 @@
 
  # TESTS
 
-  ## MOVING ROBOT 1
-  1. roslaunch verbal_communication move_launch.launch
-  2. rostopic pub /dispatch_message std_msgs/String -1 -- "terminator, move forward"
-  3. rostopic pub /dispatch_message std_msgs/String -1 -- "terminator, stop"
-  4. rostopic pub /dispatch_message std_msgs/String -1 -- "terminator, rotate left"
-  5. rostopic pub /dispatch_message std_msgs/String -1 -- "terminator, rotate right"
+  ## MOVING ROBOT
+  1. roslaunch verbal_communication greeting_and_movement.launch
+  2. rostopic pub /decoded_message std_msgs/String -1 -- "MOVE FORWARD"
+  3. rostopic pub /decoded_message std_msgs/String -1 -- "STOP"
+  4. rostopic pub /decoded_message std_msgs/String -1 -- "ROTATE LEFT"
+  5. rostopic pub /decoded_message std_msgs/String -1 -- "ROTATE RIGHT"
 
-  ## MOVING ROBOT 2
-  1. roslaunch verbal_communication move_launch.launch
-  2. rostopic pub /dispatch_message std_msgs/String -1 -- "snow boy, move forward"
-  3. rostopic pub /dispatch_message std_msgs/String -1 -- "snow boy, stop"
-  4. rostopic pub /dispatch_message std_msgs/String -1 -- "snow boy, rotate left"
-  5. rostopic pub /dispatch_message std_msgs/String -1 -- "snow boy, rotate right"
+  ## MOVING ROBOT (no rostopic)
+  1. roslaunch verbal_communication greeting_and_movement.launch
+  2. say "[robot_name] [command]"
+
+  ## GREETING ROBOT
+  1. roslaunch verbal_communication greeting_and_movement.launch
+  2. rostopic pub /decoded_message std_msgs/String -1 -- "HELLO I AM CHRIS" (robot should reply with its name)
+
+  ## GREETING ROBOT (no rostopic)
+  1. roslaunch verbal_communication greeting_and_movement.launch
+  2. say "jarvis, hello I am [your_name]"
+
+  ## TASK DISTRIBUTION
+  1. roslaunch verbal_communication task_distribution.launch
+  2. the robot should begin assigning itself to tasks: yellow, green, orange, blue, indigo, violet
+  3. to say you will complete one of the following say: "[robot_name], I will do [task]"
+  4. or: rostopic pub /decoded_message std_msgs/String -1 -- "I WILL DO [task]"
+
+Note. All messages are translated into full caps. If you publish a message to the robot rather than speak, you should always publish the message with full caps.

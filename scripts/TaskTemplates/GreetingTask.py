@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-
 import rospy
 from std_msgs.msg import String
 import re
@@ -16,33 +15,53 @@ rospy.init_node(task_name)
 communication_publisher = rospy.Publisher("dispatch_message", String, queue_size=1)
 
 def get_regex_test_list() -> dict:
+    """Returns a dict of regex pattern matches to search for within a string, along with mapped functions
+
+    Returns:
+        dict: List of strings to search for, and attached functions.
+    """
     return {
         "HELLO I AM" : robot_greeting,
         "HELLO ALL" : respond_to_global,
         "ASK GLOBAL" : ask_global
     }
 
-def listener_callback(msg) -> None:
-    print("HIT TASK")
-    print(msg)
+def listener_callback(msg: String):
+    """Matches a provided string against the list of available strings, and executes the corresponding task.
+
+    Args:
+        msg (String): String with which to match against the available statements.
+    """
     msg.data = msg.data.strip()
     for i in [*get_regex_test_list().keys()]:
-        regtest = re.compile(r'\b('+i+r')\b')
+        regtest = re.compile(r'\b('+i+r')\b') # try to regex match the strings
         if regtest.search(msg.data):
-            print("matched", i)
             get_regex_test_list()[i](msg.data)
-    return
 
+def respond_to_global(msg : String):
+    """Robot replies to a global message.
 
-def respond_to_global(msg) -> None:
+    Args:
+        msg (std_msgs/String): Not required
+    """
     message = "jarvis, Hello, I am " + robot_name
     communication_publisher.publish(message)
 
-def ask_global(msg) -> None:
+def ask_global(msg : String):
+    """Asks all robots for their names.
+
+    Args:
+        msg (std_msgs/String): Not required
+    """
     message = "jarvis, Hello all"
     communication_publisher.publish(message)
 
-def robot_greeting(msg) -> None:
+def robot_greeting(msg : String):
+    """Responds to a robot which has initiated greeting.
+
+    Args:
+        msg (std_msgs/String): Message recieved from the other robot(/s).
+    """
     from_robot = msg.replace("HELLO I AM ", "")
     if from_robot not in known_robots:
         known_robots.append(from_robot)

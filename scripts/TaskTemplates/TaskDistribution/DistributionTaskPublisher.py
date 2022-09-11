@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-
 from verbal_communication.msg import StringArray
 from std_msgs.msg import String
 import rospy
@@ -25,7 +24,7 @@ except Exception as e:
     print("failed to load service. ", e)
 
 
-#Get Init Tasks
+#get the initial tasks
 req = TaskDistributionRequest()
 req.task.data = "null"
 req.robot.data = "null"
@@ -53,8 +52,7 @@ while len(tasks) > 0:
 
         tasks = task_service(req).remaining.data
 
-#Now all the tasks are distributed, let's execute them
-
+#now all the tasks are distributed, publish the tasks the robot is assigned to
 self_assignments = rospy.get_param(robot_name+"_assignments")
 other_assignments = rospy.get_param("terminator_assignments")
 

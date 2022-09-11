@@ -1,4 +1,4 @@
-
+#DWAPlannerROS is a built-in tool for navigation, these are simply parameters to control navigation
 DWAPlannerROS:
 # Robot Configuration Parameters
   max_vel_x: 0.18

@@ -8,6 +8,7 @@ import wave
 import struct
 import pathlib
 
+#init some params
 TIME_TO_RECORD_FOR = 3
 file_name = pathlib.Path(__file__).parent.resolve().__str__()+"/recieved/message.wav"
 
@@ -21,8 +22,8 @@ message.data = file_name
 devices = PvRecorder.get_audio_devices()
 porcupine = pvporcupine.create(
     access_key='OX9bSVHcnyOpSrYKfmrJOh43DAg7d7kQ6BP0PWatLJMXgdOQrmoNOA==',
-    keywords=[robot_name, "jarvis"]
-    )
+    keywords=[robot_name, "jarvis"] # jarvis is the global identifier for all robots
+)
 
 
 recorder = PvRecorder(device_index=-1, frame_length=512)
@@ -33,10 +34,12 @@ recorder.start()
 
 time_then = time.time()
 passed = False
+
+#begin recording
 while True:
-    pcm = recorder.read()
+    pcm = recorder.read() #read sound data
     
-    result = porcupine.process(pcm)
+    result = porcupine.process(pcm) #process if sound data contains key word
     
     if result >= 0:
         rospy.loginfo("Key word hit")
@@ -44,11 +47,11 @@ while True:
         time_passed = False
         wav_file = wave.open(file_name, "w")
         wav_file.setparams((1, 2, 16000, 512, "NONE", "NONE"))
-        while time_passed is False:
+        while time_passed is False: # record the next 3 seconds of input
             pcm_to_record = recorder.read()
             wav_file.writeframes(struct.pack("h" * len(pcm_to_record), *pcm_to_record))
             if(time.time() - time_then > TIME_TO_RECORD_FOR):
                 time_passed = True
                 wav_file.close()
-                publisher.publish(message)
+                publisher.publish(message) # publish sound file location after record time has passed
         rospy.loginfo("saved input")

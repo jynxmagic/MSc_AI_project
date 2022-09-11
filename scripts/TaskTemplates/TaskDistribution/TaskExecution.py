@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 
+from array import array
 from email import message
 from typing import List
 import rospy
@@ -15,28 +16,36 @@ client = actionlib.SimpleActionClient("move_base", MoveBaseAction)
 
 
 message_publisher = rospy.Publisher("dispatch_message", String, queue_size=1)
-#while not client.wait_for_server(rospy.Duration(5)): # wait for the server to come online
-#    print("waiting for move base server")
-
-client.wait_for_server()
+client.wait_for_server() # wait for move_base server to come online
 goal = MoveBaseGoal()
 goal.target_pose.header.frame_id = "map"
 
 
 
-def getTaskList() -> List:
+def getTaskList() -> List:  #these location were taken using rviz "publish point" feature and "rostopic echo clicked_point"
     return {
-        "YELLOW" : [-0.44509080052375793, 1.486067771911621, -0.001434326171875], #these location were taken using rviz "publish point" feature and "rostopic echo clicked_point"
-#        "GREEN" :  [4.170343399047852, 0.9470973610877991, -0.001434326171875],
+        "YELLOW" : [-0.44509080052375793, 1.486067771911621, -0.001434326171875],
+        "GREEN" :  [4.170343399047852, 0.9470973610877991, -0.001434326171875],
         "ORANGE" : [6.318845748901367, -1.5968809127807617, -0.005340576171875],
-#        "BLUE" : [-0.42593103647232056, 4.4262542724609375, 0.002471923828125],
-#        "INDIGO" : [4.249742031097412, 3.6765286922454834, -0.0013427734375],
-#        "VIOLET" : [4.498147487640381, -1.7070852518081665, 0.002532958984375],
+        "BLUE" : [-0.42593103647232056, 4.4262542724609375, 0.002471923828125],
+        "INDIGO" : [4.249742031097412, 3.6765286922454834, -0.0013427734375],
+        "VIOLET" : [4.498147487640381, -1.7070852518081665, 0.002532958984375],
     } #x, y, z
 
-def sendToMoveBase(location) -> bool:
+def sendToMoveBase(location : array) -> bool:
+    """Sends a goal to move base to execute.
 
-    goal.target_pose.pose = Pose(Point(location[0], location[1], location[2]), Quaternion(0, 0, 0, 1)) # the goal is actually just a Pose on a map
+    Args:
+        location (array): [x, y, z] of location on static map
+
+    Returns:
+        bool: True if move_base reached goal in given time
+    """
+
+    goal.target_pose.pose = Pose(
+        Point(location[0], location[1], location[2]),
+        Quaternion(0, 0, 0, 1) #Quaternion is required for map transforms
+    ) # the goal is actually just a Pose on a map
 
 
     client.send_goal(goal)
@@ -47,12 +56,18 @@ def sendToMoveBase(location) -> bool:
         return True
     return False
 
-def executeTask(msg):
-    print("executing tasks, ",msg.data)
+def executeTask(msg: StringArray):
+    """ Executes all tasks the robot is assigned to.
+
+    Args:
+        msg (StringArray): List of task names
+    """
+
+    print("executing tasks: ",msg.data)
 
     tasks = getTaskList()
 
-    if type(msg.data) is type([]):
+    if type(msg.data) is type([]): # StringArray should always be of type [].
         for task in msg.data:
             if task in tasks:
                 location = tasks[task]

@@ -3,7 +3,7 @@
 from std_msgs.msg import String
 import rospy
 import time
-import random
+#import random
 
 rospy.init_node("simple_test")
 
@@ -28,3 +28,6 @@ for i in range(0, 20):
     full_command = to + "... " + "MOVE FORWARD"
 
     publisher.publish(String(full_command))
+
+
+#This simple test was used to make the robot say 20 times, "move forward". The other robot involved would then execute the commands
