@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
 from array import array
-from email import message
 from typing import List
 import rospy
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
@@ -22,7 +21,7 @@ goal.target_pose.header.frame_id = "map"
 
 
 
-def getTaskList() -> List:  #these location were taken using rviz "publish point" feature and "rostopic echo clicked_point"
+def get_task_list() -> List:  #these location were taken using rviz "publish point" feature and "rostopic echo clicked_point"
     return {
         "YELLOW" : [-0.44509080052375793, 1.486067771911621, -0.001434326171875],
         "GREEN" :  [4.170343399047852, 0.9470973610877991, -0.001434326171875],
@@ -32,7 +31,7 @@ def getTaskList() -> List:  #these location were taken using rviz "publish point
         "VIOLET" : [4.498147487640381, -1.7070852518081665, 0.002532958984375],
     } #x, y, z
 
-def sendToMoveBase(location : array) -> bool:
+def send_to_move_base(location : array) -> bool:
     """Sends a goal to move base to execute.
 
     Args:
@@ -56,7 +55,7 @@ def sendToMoveBase(location : array) -> bool:
         return True
     return False
 
-def executeTask(msg: StringArray):
+def execute_tasks(msg: StringArray):
     """ Executes all tasks the robot is assigned to.
 
     Args:
@@ -65,13 +64,13 @@ def executeTask(msg: StringArray):
 
     print("executing tasks: ",msg.data)
 
-    tasks = getTaskList()
+    tasks = get_task_list()
 
     if type(msg.data) is type([]): # StringArray should always be of type [].
         for task in msg.data:
             if task in tasks:
                 location = tasks[task]
-                success = sendToMoveBase(location)
+                success = send_to_move_base(location)
                 if(success):
                     message_publisher.publish(String("completed task "+task))
                 else:
@@ -80,7 +79,7 @@ def executeTask(msg: StringArray):
                 print("could not find task", task)
 
 
-rospy.Subscriber("execute_tasks", StringArray, executeTask)
+rospy.Subscriber("execute_tasks", StringArray, execute_tasks)
 
 print("move_base server is launched and task execution is ready")
 
