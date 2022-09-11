@@ -1,15 +1,16 @@
 #! /usr/bin/env python
+"""Moves the robot in various directions by following commands."""
 import rospy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 
+TASK_NAME = "movement"
+TOPIC_NAME = "decoded_message"
 
-task_name="movement"
-topic_name="decoded_message"
-
-rospy.init_node(task_name)
+rospy.init_node(TASK_NAME)
 
 cmd_vel_publisher = rospy.Publisher("cmd_vel", Twist, queue_size=1)
+
 
 def get_task_list() -> dict:
     """Returns a list of availble tasks to the robot.
@@ -21,8 +22,9 @@ def get_task_list() -> dict:
         "MOVE FORWARD" : move_forward,
         "STOP" : stop,
         "ROTATE LEFT" : rotate_left,
-        "ROTATE RIGHT" : rotate_right 
+        "ROTATE RIGHT" : rotate_right
     }
+
 
 def listener_callback(msg : String):
     """Searches for the task of a provided string and executes it.
@@ -37,28 +39,32 @@ def listener_callback(msg : String):
         print("Couldn't find task ", msg.data)
     return
 
+
 def move_forward():
     """Moves the robot forward."""
     message = Twist()
     message.linear.x = 0.3
     cmd_vel_publisher.publish(message)
 
+
 def stop():
     """Stops the robot."""
     message = Twist()
-    message.linear.x=0
-    message.linear.y=0
-    message.linear.z=0
-    message.angular.x=0
-    message.angular.y=0
-    message.angular.z=0
+    message.linear.x = 0
+    message.linear.y = 0
+    message.linear.z = 0
+    message.angular.x = 0
+    message.angular.y = 0
+    message.angular.z = 0
     cmd_vel_publisher.publish(message)
+
 
 def rotate_left():
     """Makes the robot rotate left."""
     message = Twist()
     message.angular.z = 0.3
     cmd_vel_publisher.publish(message)
+
 
 def rotate_right():
     """Makes the robot rotate right."""
@@ -67,7 +73,6 @@ def rotate_right():
     cmd_vel_publisher.publish(message)
 
 
-rospy.Subscriber(topic_name, String, listener_callback)
+rospy.Subscriber(TOPIC_NAME, String, listener_callback)
 
-    
 rospy.spin()

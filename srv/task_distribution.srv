@@ -1,4 +1,4 @@
 std_msgs/String task #task which the robot is assigned to
 std_msgs/String robot #robot which is assinged to the task
 ----
-verbal_communication/StringArray remaining # remaining tasks, as list of strings
+verbal_communication/string_array remaining # remaining tasks, as list of strings

@@ -1,8 +1,8 @@
 <launch>
     <param name="robot_name" value="terminator" />
-    <node pkg="verbal_communication" type="SpeechObserver.py" name="SpeechObserver" output="screen" />
-    <node pkg="verbal_communication" type="Encoder.py" name="Encoder" output="screen" />
-    <node pkg="verbal_communication" type="Speaker.py" name="Speaker" output="screen" />
-    <node pkg="verbal_communication" type="GreetingTask.py" name="Greeting" output="screen"/>
-    <node pkg="verbal_communication" type="MoveTask.py" name="Move" output="screen" />
+    <node pkg="verbal_communication" type="speech_observer.py" name="speech_observer" output="screen" />
+    <node pkg="verbal_communication" type="encoder.py" name="encoder" output="screen" />
+    <node pkg="verbal_communication" type="speaker.py" name="speaker" output="screen" />
+    <node pkg="verbal_communication" type="greeting_task.py" name="greeting_task" output="screen"/>
+    <node pkg="verbal_communication" type="move_task.py" name="move_task" output="screen" />
 </launch>

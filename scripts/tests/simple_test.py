@@ -1,8 +1,10 @@
 #! /usr/bin/env python
-
-from std_msgs.msg import String
-import rospy
+"""This is a simple test to execute from a 2nd robot to make the robot issue commands to the first robot for the movement task."""
 import time
+
+import rospy
+from std_msgs.msg import String
+
 #import random
 
 rospy.init_node("simple_test")
@@ -21,11 +23,11 @@ publisher = rospy.Publisher("dispatch_message", String, queue_size=1)
 for i in range(0, 20):
     time.sleep(10)
 
-    to = "bumblebee"
+    TO = "bumblebee"
 
 #    command = available_commands[random.randint(0,3)]
 
-    full_command = to + "... " + "MOVE FORWARD"
+    full_command = TO + "... " + "MOVE FORWARD"
 
     publisher.publish(String(full_command))
 
