@@ -1,6 +1,6 @@
 # INSTALLATION
 1. Run the command in requirements.txt file.
-2. Run "mics.py" to display current USB ports and replace the value "device_index" in scripts/AudioInterface/SpeechObserver.py with the USB index of your microphone.
+2. Run "mics.py" to display current USB ports and replace the value "device_index" in scripts/audio_interface/speech_observer.py with the USB index of your microphone.
 3. Run ```catkin_make``` in the root catkin directory.
 4. Source the setup.bash file after catkin_make
 5. You can test the code is working by running the command ```roslaunch verbal_communication greeting_and_movement.launch```
