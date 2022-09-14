@@ -1,5 +1,6 @@
 # INSTALLATION
 1. Run the command in requirements.txt file.
+2. For distributed task execution, the "Mobile Robot Simulator" package is required (https://github.com/mrath/mobile_robot_simulator.git). Download into ```catkin_ws/src```.
 2. Run "mics.py" to display current USB ports and replace the value "device_index" in scripts/audio_interface/speech_observer.py with the USB index of your microphone.
 3. Run ```catkin_make``` in the root catkin directory.
 4. Source the setup.bash file after catkin_make
