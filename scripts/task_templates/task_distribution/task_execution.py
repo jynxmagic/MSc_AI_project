@@ -73,17 +73,16 @@ def execute_tasks(msg: string_array):
 
     tasks = get_task_list()
 
-    if msg.data is isinstance([]):  # StringArray should always be of type [].
-        for task in msg.data:
-            if task in tasks:
-                location = tasks[task]
-                success = send_to_move_base(location)
-                if success:
-                    message_publisher.publish(String("completed task " + task))
-                else:
-                    message_publisher.publish(String("failed to complete task " + task))
+    for task in msg.data:
+        if task in tasks:
+            location = tasks[task]
+            success = send_to_move_base(location)
+            if success:
+                message_publisher.publish(String("completed task " + task))
             else:
-                print("could not find task", task)
+                message_publisher.publish(String("failed to complete task " + task))
+        else:
+            print("could not find task", task)
 
 
 rospy.Subscriber("execute_tasks", string_array, execute_tasks)
